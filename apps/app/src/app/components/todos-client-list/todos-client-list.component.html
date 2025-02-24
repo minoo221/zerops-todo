@@ -1,7 +1,15 @@
-<div class="__avatar-container">
+<mat-card class="__card">
+	<div class="__avatar-container">
 	@for (item of clients(); track item.id) {
-	<div class="__avatar" (click)="selectClient.emit(item.id)">
-		<img src="assets/avataaars.svg" alt="{{item.clientName}}">
+	<div class="__avatar" >
+		<button class="__avatar-delete" mat-mini-fab (click)="deleteClient.emit(item.id)">
+			<mat-icon class="icon-delete">close</mat-icon>
+		</button>
+		<div class="__avatar-cover" (click)="selectClient.emit(item.id)">
+			<img src="assets/avataaars.svg" alt="{{item.clientName}}">
+		</div>
+
 	</div>
 	}
-</div>
+	</div>
+</mat-card>

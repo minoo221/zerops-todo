@@ -44,6 +44,8 @@ export class TodosFeature {
 	onDelete$ = new Subject<number>();
 	onMarkAllComplete$ = new Subject<void>();
 	onSearch$ = new Subject<{ clientId: number }>();
+	onSelectClient$ = new Subject<number>();
+	onDeleteClient$ = new Subject<number>();
 
 	// data
 	hideCompletedSignal = signal(false);
@@ -69,17 +71,31 @@ export class TodosFeature {
 	#updateAction$ = this.onUpdate$.pipe(map(({ id, payload }) => todosActions.update({ id, payload })));
 	#deleteAction$ = this.onDelete$.pipe(map((id) => todosActions.delete({ id })));
 	#markAllCompleteAction$ = this.onMarkAllComplete$.pipe(map(() => todosActions.markAllComplete()));
+	#changeClientActions$ = this.onSelectClient$.pipe(
+		map((clientId) => {
+			this.selectedClientSignal.set(clientId);
+			return todosActions.search({ clientId: clientId });
+		}),
+	);
+	#deleteClientAction$ = this.onDeleteClient$.pipe(map((id) => clientsActions.delete({ id })));
 
 	constructor() {
 		effect(() => {
 			const clients = this.clientsSignal();
-
 			if (clients && clients.length > 0) {
 				this.selectedClientSignal.set(clients[0].id);
 				this.onSearch$.next({ clientId: clients[0].id });
 			}
 		});
-		merge(this.#addAction$, this.#updateAction$, this.#deleteAction$, this.#markAllCompleteAction$, this.#searchAction$)
+		merge(
+			this.#addAction$,
+			this.#updateAction$,
+			this.#deleteAction$,
+			this.#markAllCompleteAction$,
+			this.#searchAction$,
+			this.#changeClientActions$,
+			this.#deleteClientAction$,
+		)
 			.pipe(takeUntilDestroyed())
 			.subscribe(this.#store);
 	}

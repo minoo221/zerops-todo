@@ -84,7 +84,7 @@ export class ClientsEffects implements OnInitEffects {
 		() =>
 			this.#actions$.pipe(
 				ofType(clientsActions.deleteSuccess),
-				tap(() => this.#openSnack("Úkol smazán")),
+				tap(() => this.#openSnack("Používatel smazán")),
 			),
 		{ dispatch: false },
 	);
