@@ -1,15 +1,24 @@
 <mat-card class="__card">
 	<div class="__avatar-container">
-	@for (item of clients(); track item.id) {
-	<div class="__avatar" >
-		<button class="__avatar-delete" mat-mini-fab (click)="deleteClient.emit(item.id)">
-			<mat-icon class="icon-delete">close</mat-icon>
-		</button>
-		<div class="__avatar-cover" (click)="selectClient.emit(item.id)">
-			<img src="assets/avataaars.svg" alt="{{item.clientName}}">
-		</div>
+		@if (clients().length > 0) {
 
-	</div>
-	}
+		@for (item of clients(); track item.id) {
+		<div class="__avatar" [class]="{ '__selected': item.id === selectedClient() }">
+			<button class="__avatar-delete" mat-mini-fab (click)="deleteClient.emit(item.id)">
+				<mat-icon class="icon-delete">close</mat-icon>
+			</button>
+			<div class="__avatar-cover" (click)="selectClient.emit(item.id)" [matTooltip]="item.clientName" matTooltipPosition="above">
+				<img src="assets/avataaars.svg" alt="{{item.clientName}}">
+			</div>
+		</div>
+		}
+	 	} @else {
+			<mat-card-header class="__card-header">
+				<mat-card-title>Začnite pridaním používateľa</mat-card-title>
+			</mat-card-header>
+		}
+		<button class="__add-client" matTooltip="Pridať používateľa" matTooltipPosition="above" mat-mini-fab (click)="openDialog('0ms', '0ms')">
+			<mat-icon>add</mat-icon>
+		</button>
 	</div>
 </mat-card>

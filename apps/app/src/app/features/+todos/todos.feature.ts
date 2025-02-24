@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from "@angular/core";
-import { takeUntilDestroyed, toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { MatCardModule } from "@angular/material/card";
 import { Store } from "@ngrx/store";
 import { map, merge, Subject, filter, switchMap } from "rxjs";
@@ -13,6 +13,8 @@ import { filterCompletedTodos } from "../../core/todos-base/todos.utils";
 import { TodoAddFormComponent } from "../../components/todo-add-form/todo-add-form.component";
 import { TodosClientListComponent } from "../../components/todos-client-list/todos-client-list.component";
 import { clientsActions, clientsEntity } from "../../core/clients-base/clients.state";
+import { TodoClientAddFormInstance } from "../../components/todo-client-add/todo-client-add.form";
+import { ClientAddPayload } from "../../core/clients-base/clients.model";
 
 @Component({
 	selector: "z-todos",
@@ -34,6 +36,7 @@ export class TodosFeature {
 	#todosEntity = todosEntity();
 	#store = inject(Store);
 	formInstance = inject(TodoAddFormInstance);
+	clientFormInstance = inject(TodoClientAddFormInstance);
 
 	//clients
 	#clientsEntity = clientsEntity();
@@ -46,6 +49,7 @@ export class TodosFeature {
 	onSearch$ = new Subject<{ clientId: number }>();
 	onSelectClient$ = new Subject<number>();
 	onDeleteClient$ = new Subject<number>();
+	onAddClient$ = new Subject<ClientAddPayload>();
 
 	// data
 	hideCompletedSignal = signal(false);
@@ -78,6 +82,11 @@ export class TodosFeature {
 		}),
 	);
 	#deleteClientAction$ = this.onDeleteClient$.pipe(map((id) => clientsActions.delete({ id })));
+	#addClientAction$ = this.onAddClient$.pipe(map((payload) => clientsActions.add({ payload })));
+
+	handleClientAdded(text: Event) {
+		console.log("add client", text);
+	}
 
 	constructor() {
 		effect(() => {
@@ -95,6 +104,7 @@ export class TodosFeature {
 			this.#searchAction$,
 			this.#changeClientActions$,
 			this.#deleteClientAction$,
+			this.#addClientAction$,
 		)
 			.pipe(takeUntilDestroyed())
 			.subscribe(this.#store);

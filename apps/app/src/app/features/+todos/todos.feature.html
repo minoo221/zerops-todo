@@ -1,6 +1,7 @@
 <div class="__users-wrap">
-  <z-todos-client-list [clients]="state().clients" (selectClient)="onSelectClient$.next($event)" (deleteClient)="onDeleteClient$.next($event)"/>
+  <z-todos-client-list [clients]="state().clients" [selectedClient]="state().selectedClient" (selectClient)="onSelectClient$.next($event)" (deleteClient)="onDeleteClient$.next($event)" (addClient)="onAddClient$.next($event)"/>
 </div>
+@if (state().clients.length > 0) {
 <mat-card class="__add-form-card">
   <z-todo-add-form
     [formInstance]="formInstance"
@@ -25,3 +26,4 @@
 <div class="__count-wrap">
   <z-todos-counter [todos]="state().todos" />
 </div>
+}

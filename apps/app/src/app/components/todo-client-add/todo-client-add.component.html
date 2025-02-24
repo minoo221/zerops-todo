@@ -1,0 +1,15 @@
+<form class="__form" (submit)="submitForm()" [formGroup]="formControls()">
+	<h2 mat-dialog-title>Pridanie používateľa</h2>
+	<mat-dialog-content>
+		<div>
+			<mat-form-field>
+				<input matInput [placeholder]="'Meno používateľa'" type="text" [formControlName]="'clientName'" />
+			</mat-form-field>
+		</div>
+	</mat-dialog-content>
+	<mat-dialog-actions>
+		<button color="primary" mat-raised-button [disabled]="!formControls().valid" class="__button" type="submit">
+			Přidat úkol
+		</button>
+	</mat-dialog-actions>
+</form>
