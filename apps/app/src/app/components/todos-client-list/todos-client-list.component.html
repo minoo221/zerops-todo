@@ -1,0 +1,7 @@
+<div class="__avatar-container">
+	@for (item of clients(); track item.id) {
+	<div class="__avatar" (click)="selectClient.emit(item.id)">
+		<img src="assets/avataaars.svg" alt="{{item.clientName}}">
+	</div>
+	}
+</div>

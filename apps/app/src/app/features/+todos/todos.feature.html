@@ -1,7 +1,10 @@
+<div class="__users-wrap">
+  <z-todos-client-list [clients]="state().clients" (selectClient)="selectedClientSignal.set($event)"/>
+</div>
 <mat-card class="__add-form-card">
   <z-todo-add-form
     [formInstance]="formInstance"
-    (add)="onAdd$.next($event)"
+    (add)="onAdd$.next({ payload: $event, clientId: state().selectedClient })"
   />
 </mat-card>
 

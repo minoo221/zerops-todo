@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodosModule } from '../todos/todos.module';
+import { ClientsModule } from '../clients/clients.module';
 
 @Module({
   imports: [
@@ -9,9 +10,10 @@ import { TodosModule } from '../todos/todos.module';
       url: process.env.DB_URL,
       ssl: false,
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: true,
     }),
-    TodosModule
-  ]
+    TodosModule,
+    ClientsModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

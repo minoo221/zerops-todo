@@ -4,20 +4,31 @@ import { Repository } from 'typeorm';
 import { CreateTodoDto } from './dtos/create.todo.dto';
 import { UpdateTodoDto } from './dtos/update.todo.dto';
 import { Todo } from './todos.entity';
+import { Client } from '../clients/clients.entity';
 
 @Injectable()
 export class TodosService {
   constructor(
     @InjectRepository(Todo)
-    private todosRepository: Repository<Todo>,
-  ) { }
+    private todosRepository: Repository<Todo>
+  ) {}
 
   async create(createTodoDto: CreateTodoDto): Promise<Todo> {
-    return this.todosRepository.save(createTodoDto);
+    console.log(createTodoDto);
+
+    const todo = this.todosRepository.create(createTodoDto);
+    return this.todosRepository.save(todo);
   }
 
-  async findAll(clientId: string): Promise<Todo[]> {
-    return this.todosRepository.find({ where: { clientId }});
+  /* async create(createTodoDto: CreateTodoDto): Promise<Todo> {
+    return this.todosRepository.save(createTodoDto);
+  } */
+
+  async findAll(clientId: number): Promise<Todo[]> {
+    return this.todosRepository.find({
+      where: { clientId },
+      relations: ['client'],
+    });
   }
 
   async findOne(id: number): Promise<Todo> {
@@ -38,8 +49,10 @@ export class TodosService {
     return deletedData.affected;
   }
 
-  async markAllAsCompleted(clientId: string): Promise<void> {
-    await this.todosRepository.update({ completed: false, clientId }, { completed: true });
+  async markAllAsCompleted(clientId: number): Promise<void> {
+    await this.todosRepository.update(
+      { completed: false, clientId },
+      { completed: true }
+    );
   }
-
 }

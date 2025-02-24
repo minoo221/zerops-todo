@@ -22,7 +22,10 @@ export class TodosController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new todo' })
-  @ApiResponse({ status: 201, description: 'The todo has been successfully created.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The todo has been successfully created.',
+  })
   create(@Body() createTodoDto: CreateTodoDto) {
     return this.todosService.create(createTodoDto);
   }
@@ -30,7 +33,7 @@ export class TodosController {
   @Get()
   @ApiOperation({ summary: 'Get all todos' })
   @ApiResponse({ status: 200, description: 'List of todos.' })
-  findAll(@Query('clientId') clientId: string) {
+  findAll(@Query('clientId') clientId: number) {
     return this.todosService.findAll(clientId);
   }
 
@@ -58,8 +61,7 @@ export class TodosController {
   @Patch('mark-all-as-completed')
   @ApiOperation({ summary: 'Mark all todos as completed' })
   @ApiResponse({ status: 200, description: 'The number of updated todos.' })
-  markAllAsCompleted(@Query('clientId') clientId: string) {
+  markAllAsCompleted(@Query('clientId') clientId: number) {
     return this.todosService.markAllAsCompleted(clientId);
   }
-
 }

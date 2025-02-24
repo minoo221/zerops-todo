@@ -1,9 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Client } from '../clients/clients.entity';
 
 @Entity({
   orderBy: {
-    id: 'DESC'
-  }
+    id: 'DESC',
+  },
 })
 export class Todo {
   @PrimaryGeneratedColumn()
@@ -16,5 +17,10 @@ export class Todo {
   text: string;
 
   @Column()
-  clientId: string;
+  clientId: number;
+
+  @ManyToOne(() => Client, (client) => client.todos, {
+    onDelete: 'CASCADE',
+  })
+  client: Client;
 }
