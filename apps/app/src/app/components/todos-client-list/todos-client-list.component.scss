@@ -1,6 +1,6 @@
 .__card {
-	margin-bottom: 20px;
 	width: 460px;
+	margin-bottom: 20px;
 }
 .__card-header {
 	padding-top: 10px;
@@ -63,12 +63,12 @@
 		position: absolute;
 		top: 0px;
 		right: 0px;
+		width: 20px;
+		height: 20px;
 		background-color: #ff4081;
 		color: #fff;
 		border: none;
 		border-radius: 50%;
-		width: 20px;
-		height: 20px;
 		cursor: pointer;
 		transition: all 0.3s ease;
 		visibility: hidden;
