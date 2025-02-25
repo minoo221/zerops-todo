@@ -36,7 +36,6 @@ export class TodosClientListComponent {
 
 		dialogRef.afterClosed().subscribe((result: ClientAddPayload | undefined) => {
 			if (result) {
-				console.log("The dialog was closed", result);
 				this.addClient.emit(result);
 			}
 		});
