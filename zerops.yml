@@ -3,7 +3,7 @@ zerops:
           build:
                   base: nodejs@22
                   buildCommands:
-                          - yarn install --frozen-lockfile
+                          - yarn install
                           - npm run build:api
                   deployFiles:
                           - dist
@@ -23,7 +23,7 @@ zerops:
           build:
                   base: nodejs@22
                   buildCommands:
-                          - yarn install --frozen-lockfile
+                          - yarn install
                           - npm run build:app
                   deployFiles:
                           - dist/apps/app/browser/~
